@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>单例模式弹窗</title>
+  </head>
+  <style>
+    #modal {
+      height: 200px;
+      width: 200px;
+      line-height: 200px;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      border: 1px solid black;
+      text-align: center;
+    }
+  </style>
+  <body>
+    <button id="open">open modal</button>
+    <button id="close">close modal</button>
+  </body>
+  <script>
+    const Modal = (function () {
+      let modal = null;
+      return function (text = '') {
+        if (modal == null) {
+          modal = document.createElement('div');
+          modal.innerHTML = text || '我是全局唯一的 modal';
+          modal.id = 'modal';
+          modal.style.display = 'none';
+          document.body.appendChild(modal);
+        }
+        return modal;
+      };
+    })();
+
+    const openBtn = document.querySelector('#open');
+    const closeBtn = document.querySelector('#close');
+
+    const handleOpenClick = () => {
+      const model = Modal('hello world');
+      model.style.display = 'block';
+    };
+    const handleCloseClick = () => {
+      const modal = Modal();
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    };
+    
+    openBtn.addEventListener('click', handleOpenClick);
+    closeBtn.addEventListener('click', handleCloseClick);
+  </script>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>按钮点击</title>
+  </head>
+  <style>
+    #modal {
+      width: 200px;
+      height: 200px;
+      border: 1px solid black;
+      line-height: 200px;
+      text-align: center;
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 999;
+    }
+  </style>
+  <body>
+    <button id="open">Open Modal</button>
+    <button id="close">Close Modal</button>
+  </body>
+  <script>
+    const openBtn = document.querySelector('#open');
+    const closeBtn = document.querySelector('#close');
+
+    const Modal = (function () {
+      let modal = null;
+      return function (text = '') {
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.innerHTML = text || '传入参数以定义文本';
+          modal.style.display = 'none';
+          modal.id = 'modal';
+          document.body.appendChild(modal);
+        }
+        return modal;
+      };
+    })();
+
+    class OpenButton {
+      onClick() {
+        const modal = Modal();
+        modal.style.display = 'block';
+      }
+    }
+
+    class Decorator {
+      // 传入按钮实例
+      constructor(open_button) {
+        this.open_button = open_button;
+      }
+
+      onClick() {
+        this.open_button.onClick();
+        this.changeButtonStatus();
+      }
+
+      changeButtonStatus() {
+        this.changeButtonText();
+        this.disableButton();
+      }
+
+      disableButton() {
+        openBtn.setAttribute('disabled', true);
+      }
+
+      changeButtonText() {
+        openBtn.innerText = '尽快登录';
+      }
+    }
+
+    const openButton = new OpenButton();
+    const decorator = new Decorator(openButton);
+
+    openBtn.addEventListener('click', () => decorator.onClick());
+  </script>
+</html>

@@ -37,4 +37,13 @@ const getInstance = (function () {
 
 let ins1 = getInstance();
 let ins2 = getInstance();
-console.log(ins1 === ins2) //true
+console.log(ins1 === ins2); //true
+
+const obj = {
+  name: 'qingsds',
+  say: () => {
+    console.log('hello');
+  },
+};
+
+
